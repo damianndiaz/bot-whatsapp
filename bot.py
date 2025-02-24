@@ -86,6 +86,8 @@ def upload_to_google_drive(file_path):
     
     if file.get('id'):
         print(f"Archivo subido con éxito a Google Drive con ID: {file.get('id')}")
+        return True
+    return False
 
 @app.route("/whatsapp-webhook", methods=['POST'])
 def whatsapp_webhook():
@@ -106,6 +108,9 @@ def whatsapp_webhook():
             success = process_and_upload_image(file_path)
             if success:
                 resp.message("La imagen se subió correctamente a Google Drive.")
+                # Eliminar la imagen del repositorio local
+                os.remove(file_path)
+                print(f"Archivo local {file_path} eliminado.")
             else:
                 resp.message("Hubo un error al subir la imagen a Google Drive.")
         else:
@@ -152,8 +157,7 @@ def process_and_upload_image(file_path):
             if img.format != 'JPEG':
                 raise ValueError("El archivo no se guardó como JPEG correctamente")
         
-        upload_to_google_drive(file_path)
-        return True
+        return upload_to_google_drive(file_path)
     except Exception as e:
         print(f"Error al procesar la imagen: {e}")
         return False
