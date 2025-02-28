@@ -20,9 +20,10 @@ account_sid = os.getenv('TWILIO_SID')
 auth_token = os.getenv('TWILIO_AUTH_TOKEN')
 client = Client(account_sid, auth_token)
 
-# Obtener credenciales de Google Drive desde GitHub Secrets
-credentials_json = os.getenv('CREDENTIALS')
-token_json = os.getenv('TOKEN')
+# Configuración de Google Drive
+SCOPES = ['https://www.googleapis.com/auth/drive.file']
+TOKEN_FILE = 'token.json'
+CREDENTIALS_FILE = 'credentials.json'
 
 SCOPES = ['https://www.googleapis.com/auth/drive.file']
 
